@@ -16,7 +16,7 @@ Otevřete http://localhost:8000. Výstup v `dist/` lze hostovat jako běžný st
 
 Články jsou v `obsah/`. Adresář a název Markdown souboru určují adresu článku. Každý článek začíná YAML metadaty: title, description, cas, obtiznost, kontrola_zdroju a stav. Nepoužívejte označení „otestováno“, pokud postup nebyl skutečně ověřen na zařízení.
 
-Šablonu článku najdete v `sablony/navod.md`. Vzhled a vyhledávání jsou v `assets/`. Společné rozložení a rozcestníky vytváří `build.py`. Po úpravě znovu spusťte sestavení. Hlavní stránka používá zvolený seznam článků; nové články se automaticky objeví v příslušné sekci a vyhledávání.
+Šablonu článku najdete v `sablony/navod.md`. Vzhled a vyhledávání jsou v `assets/`. Zdrojové HTML šablony společného rozložení, článků, karet a rozcestníků jsou v `sablony/`; nejde o vygenerované stránky. Jejich naplnění obsahem zajišťuje `build.py`. Po úpravě znovu spusťte sestavení. Hlavní stránka používá zvolený seznam článků; nové články se automaticky objeví v příslušné sekci a vyhledávání.
 
 Vyhledávání používá malý JavaScript a neodesílá dotazy na server. Bez JavaScriptu zůstává navigace a čtení článků funkční.
 
@@ -54,3 +54,12 @@ V projektu Pages otevřete **Custom domains** a připojte `www.hawiki.cz` podle 
 Pokud je existující `hawiki-cz` projektem Workers, tato nastavení se na něj nevztahují: použijte skutečný projekt Pages. Dashboardová adresa obsahující `/workers/services/view/` sama o sobě nepotvrzuje typ projektu.
 
 Dokumentace: https://developers.cloudflare.com/pages/get-started/git-integration/ a https://developers.cloudflare.com/pages/configuration/build-image/
+
+## Kontrola Python skriptů
+
+Funkce v `build.py` a `check.py` mají dokumentaci a standardní formátování. Oba skripty lze bezpečně importovat; sestavení a kontrola se spustí pouze při jejich přímém spuštění.
+
+```sh
+python3 -m pip install pylint
+python3 -m pylint build.py check.py
+```

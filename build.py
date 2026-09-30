@@ -1,36 +1,203 @@
+"""Generate the static HAwiki.cz website from Markdown articles.
+
+Run ``python3 build.py`` from any working directory. Source content lives in
+``obsah/``, HTML source templates in ``sablony/`` and shared assets in ``assets/``.
+Generated pages and the search index are written to ``dist/``.
+"""
+
+import html
+import importlib
+import json
 from pathlib import Path
-import sys, json, html, shutil
-ROOT=Path(__file__).resolve().parent
-sys.path.insert(0,str(ROOT/'.vendor'))
-import markdown,yaml
-OUT=ROOT/'dist'; OUT.mkdir(exist_ok=True)
-CONFIG=json.loads((ROOT/'site.json').read_text())
-SITE_URL=CONFIG['url'].rstrip('/')
-E=html.escape
-sections={'zaciname':('Začínáme','Váš první krok k pohodlnější domácnosti.'),'co-chci-usnadnit':('Co chci usnadnit','Vyberte si podle běžného života.'),'co-koupit':('Co koupit','Nejdřív potřeba, potom nákup.'),'navody':('Návody','Malé kroky s konkrétním výsledkem.'),'pomoc':('Pomoc','Když něco nefunguje, začněte tady.'),'dalsi-moznosti':('Další možnosti','Rozšíření pro váš další krok.')}
-pages=[]
-for p in sorted((ROOT/'obsah').rglob('*.md')):
- _,front,body=p.read_text().split('---',2);meta=yaml.safe_load(front)
- for key in ('title','description','cas','obtiznost'): assert key in meta,p
- slug=p.relative_to(ROOT/'obsah').with_suffix('').as_posix()
- md=markdown.Markdown(extensions=['toc','tables','fenced_code','admonition'])
- content=md.convert(body)
- pages.append(dict(meta,slug=slug,body=content,toc=md.toc))
-nav=''.join(f'<a href="/{k}/">{v[0]}</a>' for k,v in list(sections.items())[:5])
-def shell(title,description,body,route):
- return f'''<!doctype html><html lang="cs"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{E(title)} · HAwiki.cz</title><meta name="description" content="{E(description,quote=True)}"><link rel="canonical" href="{SITE_URL}/{route + '/' if route else ''}"><meta name="theme-color" content="#18bcf2"><link rel="stylesheet" href="/assets/style.css"><link rel="icon" href="/assets/favicon.svg"><script src="/assets/search.js" defer></script></head><body><a class="skip" href="#obsah">Přejít k obsahu</a><header><a class="brand" href="/"><span class="logo">⌂</span>HAwiki<span class="brand-light">.cz</span></a><nav aria-label="Hlavní navigace">{nav}</nav><a class="search-link" href="/hledani/">Hledat ↗</a></header><main id="obsah">{body}</main><footer><div><a class="brand" href="/">⌂ HAwiki.cz</a><p>Home Assistant srozumitelně. Pro české a slovenské domácnosti.</p></div><div><a href="/dalsi-moznosti/">Další možnosti a HACS</a><p>Nezávislý průvodce. Není oficiálním webem Home Assistant.</p></div></footer></body></html>'''
-def write(route,title,desc,body):
- p=OUT/route/'index.html';p.parent.mkdir(parents=True,exist_ok=True);p.write_text(shell(title,desc,body,route))
-def cards(items):
- return '<div class="cards">'+''.join(f'<a class="card" href="/{p["slug"]}/"><span class="eyebrow">{E(p["obtiznost"])} · {E(p["cas"])}</span><h3>{E(p["title"])}</h3><p>{E(p["description"])}</p><span class="read">Přečíst průvodce <span>↗</span></span></a>' for p in items)+'</div>'
-for p in pages:
- section=p['slug'].split('/')[0]
- body=f'''<div class="article-head"><div class="crumb"><a href="/">Domů</a> / <a href="/{section}/">{sections[section][0]}</a></div><span class="eyebrow">{E(p['obtiznost'])} · {E(p['cas'])}</span><h1>{E(p['title'])}</h1><p class="intro">{E(p['description'])}</p><p class="review">Kontrola zdrojů: {E(p['kontrola_zdroju'])} · {E(p['stav'])}</p></div><div class="article-layout"><article>{p['body']}</article><aside><strong>V tomto článku</strong>{p['toc']}<div class="aside-tip">Začněte jednou věcí.<br>Další přidáte, až bude fungovat.</div></aside></div>'''
- write(p['slug'],p['title'],p['description'],body)
-for key,(title,desc) in sections.items():
- write(key,title,desc,f'<section class="section-head"><span class="eyebrow">PRŮVODCE DOMÁCNOSTÍ</span><h1>{title}</h1><p class="intro">{desc}</p></section>'+cards([p for p in pages if p['slug'].startswith(key+'/')]))
-write('', 'Chytrá domácnost začíná jedním krokem','Praktický průvodce Home Assistant pro běžné domácnosti.', '''<section class="hero"><div><span class="eyebrow">HOME ASSISTANT PRO KAŽDÉHO</span><h1>Méně starostí.<br>Více <em>pohodlí doma.</em></h1><p class="intro">Světla, která myslí na vás. Jednodušší ovládání. Začněte jednou malou změnou — provedeme vás krok za krokem.</p><div class="actions"><a class="button" href="/zaciname/co-je-home-assistant/">Chci začít od nuly <span>→</span></a><a class="text-link" href="/navody/">Prohlédnout návody ↗</a></div><p class="small">Česky a srozumitelně · Vlastním tempem</p></div><div class="house" aria-label="Ilustrace večerního pohodlí doma" role="img"><div class="roof"></div><div class="room"><div class="window"><i></i></div><div class="lamp"></div><div class="sofa"></div><div class="plant">❧</div><div class="floor"></div></div><div class="house-note"><span class="status-dot"></span>19:00 · Lampa se rozsvítila</div><span class="illustration-label">Malé změny. Příjemnější den.</span></div></section><section class="start-strip"><span class="number">01</span><div><strong>Nemusíte měnit celou domácnost.</strong><p>Jedna lampa a jednoduché pravidlo jsou dobrý začátek.</p></div><a href="/navody/lampa-vecer/">Vyzkoušet první návod →</a></section><section><div class="section-title"><div><span class="eyebrow">OD NÁPADU K PRVNÍMU VÝSLEDKU</span><h2>Začněte právě tady</h2></div><a href="/zaciname/">Vše pro začátečníky ↗</a></div>'''+cards([p for p in pages if p['slug'].startswith('zaciname/')])+'''</section><section class="practical"><div class="section-title"><div><span class="eyebrow">UŽITEČNÉ V BĚŽNÉM ŽIVOTĚ</span><h2>Co vám doma pomůže?</h2></div></div>'''+cards([p for p in pages if p['slug'] in ['co-chci-usnadnit/svetla','navody/lampa-vecer','pomoc/zalohovani']])+'''</section><section class="help-banner"><div><h2>Zasekli jste se?</h2><p>Projdeme spolu nejběžnější příčiny. Od těch nejjednodušších.</p></div><a class="button" href="/pomoc/">Najít pomoc →</a></section>''')
-write('hledani','Hledání','Najděte návod podle toho, co potřebujete.', '<section class="section-head"><span class="eyebrow">NAJDĚTE SVOU ODPOVĚĎ</span><h1>S čím potřebujete pomoci?</h1><label for="query">Hledat v článcích</label><input type="search" id="query" placeholder="Například lampa, záloha nebo první spuštění"><p id="count" role="status"></p><div id="results"></div><noscript>Pro hledání zapněte JavaScript. Všechny články jsou dostupné přes hlavní menu.</noscript></section>')
-(OUT/'search.json').write_text(json.dumps([{k:p[k] for k in ('title','description','slug')} for p in pages],ensure_ascii=False))
-shutil.copytree(ROOT/'assets',OUT/'assets',dirs_exist_ok=True)
-print(f'Vytvořeno {len(pages)+len(sections)+2} HTML stránek.')
+import shutil
+from string import Template
+import sys
+
+ROOT = Path(__file__).resolve().parent
+OUTPUT_DIRECTORY = ROOT / "dist"
+SECTIONS = {
+    "zaciname": ("Začínáme", "Váš první krok k pohodlnější domácnosti."),
+    "co-chci-usnadnit": ("Co chci usnadnit", "Vyberte si podle běžného života."),
+    "co-koupit": ("Co koupit", "Nejdřív potřeba, potom nákup."),
+    "navody": ("Návody", "Malé kroky s konkrétním výsledkem."),
+    "pomoc": ("Pomoc", "Když něco nefunguje, začněte tady."),
+    "dalsi-moznosti": ("Další možnosti", "Rozšíření pro váš další krok."),
+}
+REQUIRED_METADATA = (
+    "title", "description", "cas", "obtiznost", "kontrola_zdroju", "stav",
+)
+PRACTICAL_ARTICLES = {
+    "co-chci-usnadnit/svetla",
+    "navody/lampa-vecer",
+    "pomoc/zalohovani",
+}
+
+
+def render_template(name: str, **values: str) -> str:
+    """Substitute values into an HTML source template.
+
+    Callers escape plain text before passing it here. Rendered Markdown and
+    other HTML fragments are intentionally inserted unchanged.
+    """
+    path = ROOT / "sablony" / f"{name}.html"
+    return Template(path.read_text(encoding="utf-8")).substitute(values)
+
+
+def load_pages() -> list[dict[str, str]]:
+    """Read YAML metadata and render each Markdown article with its contents.
+
+    Dependencies can be installed locally in ``.vendor`` or in the active Python
+    environment. Missing metadata produces an error identifying the source file.
+    """
+    sys.path.insert(0, str(ROOT / ".vendor"))
+    markdown = importlib.import_module("markdown")
+    yaml = importlib.import_module("yaml")
+    pages = []
+
+    for path in sorted((ROOT / "obsah").rglob("*.md")):
+        _, front_matter, body = path.read_text(encoding="utf-8").split("---", 2)
+        metadata = yaml.safe_load(front_matter)
+        if not isinstance(metadata, dict):
+            raise ValueError(f"{path}: metadata must be a YAML mapping")
+        missing = [key for key in REQUIRED_METADATA if key not in metadata]
+        if missing:
+            raise ValueError(f"{path}: missing metadata: {', '.join(missing)}")
+
+        slug = path.relative_to(ROOT / "obsah").with_suffix("").as_posix()
+        converter = markdown.Markdown(
+            extensions=["toc", "tables", "fenced_code", "admonition"]
+        )
+        pages.append({
+            **metadata,
+            "slug": slug,
+            "body": converter.convert(body),
+            "toc": converter.toc,
+        })
+
+    return pages
+
+
+def render_cards(pages: list[dict[str, str]]) -> str:
+    """Render linked article cards from their display metadata."""
+    cards = [
+        render_template(
+            "card",
+            slug=html.escape(page["slug"]),
+            difficulty=html.escape(page["obtiznost"]),
+            duration=html.escape(page["cas"]),
+            title=html.escape(page["title"]),
+            description=html.escape(page["description"]),
+        )
+        for page in pages
+    ]
+    return '<div class="cards">' + "".join(cards) + "</div>"
+
+
+def write_page(route: str, title: str, description: str, body: str) -> None:
+    """Wrap page content in the common layout and save its UTF-8 index file.
+
+    Routes are relative to the output root. An empty route writes the homepage.
+    The canonical origin is taken from ``site.json``.
+    """
+    config = json.loads((ROOT / "site.json").read_text(encoding="utf-8"))
+    canonical_url = config["url"].rstrip("/") + "/"
+    if route:
+        canonical_url += route + "/"
+    navigation = "".join(
+        f'<a href="/{key}/">{html.escape(section[0])}</a>'
+        for key, section in list(SECTIONS.items())[:5]
+    )
+    document = render_template(
+        "layout",
+        title=html.escape(title),
+        description=html.escape(description),
+        canonical_url=html.escape(canonical_url),
+        navigation=navigation,
+        body=body,
+    )
+    path = OUTPUT_DIRECTORY / route / "index.html"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(document, encoding="utf-8")
+
+
+def write_articles(pages: list[dict[str, str]]) -> None:
+    """Generate an article page with breadcrumbs and a table of contents."""
+    for page in pages:
+        section = page["slug"].split("/")[0]
+        body = render_template(
+            "article",
+            section=html.escape(section),
+            section_title=html.escape(SECTIONS[section][0]),
+            difficulty=html.escape(page["obtiznost"]),
+            duration=html.escape(page["cas"]),
+            title=html.escape(page["title"]),
+            description=html.escape(page["description"]),
+            review_date=html.escape(page["kontrola_zdroju"]),
+            review_status=html.escape(page["stav"]),
+            content=page["body"],
+            table_of_contents=page["toc"],
+        )
+        write_page(page["slug"], page["title"], page["description"], body)
+
+
+def write_sections(pages: list[dict[str, str]]) -> None:
+    """Generate a listing page for every configured content section."""
+    for key, (title, description) in SECTIONS.items():
+        section_pages = [page for page in pages if page["slug"].startswith(key + "/")]
+        body = render_template(
+            "section",
+            title=html.escape(title),
+            description=html.escape(description),
+            cards=render_cards(section_pages),
+        )
+        write_page(key, title, description, body)
+
+
+def write_homepage(pages: list[dict[str, str]]) -> None:
+    """Generate the homepage with beginner guides and selected practical articles."""
+    body = render_template(
+        "home",
+        starter_cards=render_cards(
+            [page for page in pages if page["slug"].startswith("zaciname/")]
+        ),
+        practical_cards=render_cards(
+            [page for page in pages if page["slug"] in PRACTICAL_ARTICLES]
+        ),
+    )
+    write_page(
+        "",
+        "Chytrá domácnost začíná jedním krokem",
+        "Praktický průvodce Home Assistant pro běžné domácnosti.",
+        body,
+    )
+
+
+def write_search(pages: list[dict[str, str]]) -> None:
+    """Generate the search page and the article metadata consumed by its script."""
+    write_page(
+        "hledani", "Hledání", "Najděte návod podle toho, co potřebujete.",
+        render_template("search"),
+    )
+    index = [
+        {key: page[key] for key in ("title", "description", "slug")}
+        for page in pages
+    ]
+    (OUTPUT_DIRECTORY / "search.json").write_text(
+        json.dumps(index, ensure_ascii=False), encoding="utf-8"
+    )
+
+
+def main() -> None:
+    """Build articles, section listings, homepage, search index and shared assets."""
+    OUTPUT_DIRECTORY.mkdir(exist_ok=True)
+    pages = load_pages()
+    write_articles(pages)
+    write_sections(pages)
+    write_homepage(pages)
+    write_search(pages)
+    shutil.copytree(ROOT / "assets", OUTPUT_DIRECTORY / "assets", dirs_exist_ok=True)
+    print(f"Vytvořeno {len(pages) + len(SECTIONS) + 2} HTML stránek.")
+
+
+if __name__ == "__main__":
+    main()
