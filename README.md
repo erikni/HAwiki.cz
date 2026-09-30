@@ -22,7 +22,7 @@ Vyhledávání používá malý JavaScript a neodesílá dotazy na server. Bez J
 
 ## Obsahová omezení první verze
 
-Devět úvodních článků vychází z odkazované dokumentace. Postupy nebyly vyzkoušeny na fyzickém zařízení. Produktová srovnání, ceny pro ČR/SR, fotografie kroků a další praktické scénáře vyžadují doplnění a ověření. Web je česky; samostatná slovenská verze zatím není součástí.
+Deset úvodních článků vychází z odkazované dokumentace. Postupy nebyly vyzkoušeny na fyzickém zařízení. Produktová srovnání, ceny pro ČR/SR, fotografie kroků a další praktické scénáře vyžadují doplnění a ověření. Web je česky; samostatná slovenská verze zatím není součástí.
 
 ## Doména a barvy
 

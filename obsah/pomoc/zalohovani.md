@@ -22,5 +22,9 @@ Možnosti úložiště závisejí na vaší instalaci a připojených službách
 ## Před větší změnou
 Zkontrolujte čerstvou zálohu a přístup k ní. Obnova šifrované zálohy může vyžadovat uložený klíč.
 
+## Jak zálohu uchovat na více místech
+
+Přečtěte si [zálohování metodou 3–2–1](../zalohovani-3-2-1/). Na příkladu ukazuje, proč mít oddělené kopie a jednu uloženou mimo domov.
+
 ## Zdroj
 [Oficiální správa záloh](https://www.home-assistant.io/common-tasks/general/)
