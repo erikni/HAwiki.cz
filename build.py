@@ -196,6 +196,7 @@ def main() -> None:
     write_homepage(pages)
     write_search(pages)
     shutil.copytree(ROOT / "assets", OUTPUT_DIRECTORY / "assets", dirs_exist_ok=True)
+    shutil.copytree(ROOT / "static", OUTPUT_DIRECTORY, dirs_exist_ok=True)
     print(f"Vytvořeno {len(pages) + len(SECTIONS) + 2} HTML stránek.")
 
 
