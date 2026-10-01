@@ -45,8 +45,6 @@ Pravidlo neposílá opakované připomínky během nepřerušeného mokrého sta
 
 ## Zdroje
 
-Ověřeno podle dokumentace 1. října 2026; bez testu na fyzickém senzoru a telefonu. Umístění a fyzická zkouška závisí na modelu a jeho návodu.
-
 - [Home Assistant: binární senzory a stav moisture](https://www.home-assistant.io/integrations/binary_sensor/)
 - [Home Assistant: stavový spouštěč](https://www.home-assistant.io/triggers/state/)
 - [Companion: odesílání oznámení](https://companion.home-assistant.io/docs/notifications/notifications-basic/)

@@ -36,7 +36,13 @@ https://github.com/erikni/HAwiki.cz obsahuje pouze zdroje, Markdown články a p
 
 ## Cloudflare Pages
 
-Projekt: `hawiki-cz`. Připojte repozitář `erikni/HAwiki.cz` přes Git integration.
+Projekt: `ha-wiki`. GitHub Actions workflow `.github/workflows/deploy-cloudflare-pages.yml` sestaví web a publikuje `dist/` při pushi do `main`. Lze jej spustit i ručně přes Actions z větve `main`; ostatní větve nenasazuje.
+
+V GitHub repozitáři nastavte **Settings → Secrets and variables → Actions → New repository secret** s názvem `CLOUDFLARE_API_TOKEN`. Použijte Cloudflare API token s oprávněním **Account → Cloudflare Pages → Edit** pro účet projektu. ID účtu v `CLOUDFLARE_ACCOUNT_ID` ve workflow musí odpovídat účtu projektu `ha-wiki`.
+
+Nasazení používá `wrangler pages deploy dist --project-name=ha-wiki --branch=main`. V Pages musí být produkční větev projektu nastavena na `main`.
+
+Následující nastavení sestavení jsou pro případ použití Git integration; při nasazení přes GitHub Actions sestavení zajišťuje workflow:
 
 | Nastavení | Hodnota |
 | --- | --- |
@@ -51,9 +57,9 @@ Sestavení nainstaluje knihovny, převede Markdown do HTML a zkontroluje místn�
 
 V projektu Pages otevřete **Custom domains** a připojte `www.hawiki.cz` podle průvodce Cloudflare. Samotná hodnota v `site.json` nenastavuje DNS. Pro doménu bez `www` lze samostatně nastavit přesměrování na `https://www.hawiki.cz`.
 
-Pokud je existující `hawiki-cz` projektem Workers, tato nastavení se na něj nevztahují: použijte skutečný projekt Pages. Dashboardová adresa obsahující `/workers/services/view/` sama o sobě nepotvrzuje typ projektu.
+Pokud je existující `ha-wiki` projektem Workers, tato nastavení se na něj nevztahují: použijte skutečný projekt Pages. Dashboardová adresa obsahující `/workers/services/view/` sama o sobě nepotvrzuje typ projektu.
 
-Dokumentace: https://developers.cloudflare.com/pages/get-started/git-integration/ a https://developers.cloudflare.com/pages/configuration/build-image/
+Dokumentace: https://developers.cloudflare.com/pages/how-to/use-direct-upload-with-continuous-integration/ a https://developers.cloudflare.com/pages/configuration/build-image/
 
 ## Kontrola Python skriptů
 

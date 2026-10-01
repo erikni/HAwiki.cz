@@ -46,8 +46,6 @@ Pokud rodina přehled nevidí, ověřte zobrazení v postranním panelu a omezen
 
 ## Zdroje
 
-Ověřeno podle dokumentace 1. října 2026; bez testování na zařízení.
-
 - [Home Assistant: přehledy a vizuální úpravy](https://www.home-assistant.io/dashboards/)
 - [Home Assistant: vytvoření vlastního přehledu](https://www.home-assistant.io/dashboards/dashboards/)
 - [Home Assistant: dlaždice a jejich akce](https://www.home-assistant.io/dashboards/tile/)

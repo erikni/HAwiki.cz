@@ -46,8 +46,6 @@ Scéna není běžný vypínač a nemá stav zapnuto či vypnuto. Dalším klepn
 
 ## Zdroje
 
-Ověřeno podle dokumentace 1. října 2026; bez testování na zařízení.
-
 - [Home Assistant: editor scén](https://www.home-assistant.io/docs/scene/editor/)
 - [Home Assistant: scény a jejich aktivace](https://www.home-assistant.io/integrations/scene/)
 - [Home Assistant: karta Tlačítko](https://www.home-assistant.io/dashboards/button/)

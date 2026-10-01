@@ -43,8 +43,6 @@ Za jedno nepřerušené otevření pošle jedinou zprávu. Další dostanete až
 
 ## Zdroje
 
-Ověřeno podle dokumentace 1. října 2026; bez testu na fyzickém senzoru a telefonu.
-
 - [Home Assistant: spouštěč Stav, doba trvání a příklad připomínky](https://www.home-assistant.io/triggers/state/)
 - [Home Assistant: význam stavů binárních senzorů](https://www.home-assistant.io/integrations/binary_sensor/)
 - [Companion: odesílání oznámení do telefonu](https://companion.home-assistant.io/docs/notifications/notifications-basic/)
