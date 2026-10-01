@@ -1,6 +1,8 @@
 ---
 title: "Co je Home Assistant?"
 description: "Jedno místo pro světla, topení i další zařízení."
+obrazek: "/assets/images/co-je-home-assistant.png"
+obrazek_alt: "Chytrá domácnost propojená přes Home Assistant: ovládání světel a topení, tlačítko u dveří a detekce vody u pračky."
 cas: "5 minut"
 obtiznost: "Začátečník"
 kontrola_zdroju: "2026-09-30"
