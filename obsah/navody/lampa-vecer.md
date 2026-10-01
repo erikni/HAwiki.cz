@@ -1,6 +1,8 @@
 ---
 title: "Lampa, která se večer rozsvítí sama"
 description: "První jednoduché pravidlo nastavíte klikáním."
+obrazek: "/assets/images/lampa-vecer.png"
+obrazek_alt: "Večerní obývací pokoj s automaticky rozsvícenou lampou, hodinami ukazujícími 19:00 a telefonem s časovým pravidlem."
 cas: "20 minut"
 obtiznost: "Snadné"
 kontrola_zdroju: "2026-09-30"
