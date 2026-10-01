@@ -5,6 +5,11 @@ cas: "7 minut"
 obtiznost: "Začátečník"
 kontrola_zdroju: "2026-09-30"
 stav: "Podle dokumentace; bez ověření na zařízení"
+temata:
+  - "Home Assistant"
+  - "Home Assistant Green"
+  - "Zigbee"
+  - "Vybavení pro začátečníky"
 ---
 
 ## Základní nákupní seznam

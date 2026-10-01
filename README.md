@@ -63,3 +63,11 @@ Funkce v `build.py` a `check.py` mají dokumentaci a standardní formátování.
 python3 -m pip install pylint
 python3 -m pylint build.py check.py
 ```
+
+## Strukturovaná metadata a sdílení
+
+Generátor vytváří JSON-LD typu Article pro články a Open Graph pro všechny stránky. Volitelné pole `temata` je seznam textů; propíše se do keywords a article:tag. Citace se přebírají z Markdown odkazů v závěrečné sekci Zdroj nebo Zdroje.
+
+Volitelná pole `autor` (jméno osoby), `publikovano` a `aktualizovano` se zobrazí v článku a strukturovaných datech. Data zapisujte jako uvozovaný řetězec ISO 8601 a doplňujte pouze doložené údaje. Kontrola zdrojů je samostatný údaj. Open Graph article:author vyžaduje profilovou URL, proto se ze samotného jména negeneruje.
+
+Společný náhled pro sdílení je v assets/social-card.png (1200 × 630 px). Open Graph se řídí https://ogp.me/ a JSON-LD https://schema.org/Article.

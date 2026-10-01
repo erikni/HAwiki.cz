@@ -8,6 +8,7 @@ Generated pages and the search index are written to ``dist/``.
 import html
 import importlib
 import json
+import re
 from pathlib import Path
 import shutil
 from string import Template
@@ -72,6 +73,9 @@ def load_pages() -> list[dict[str, str]]:
             "slug": slug,
             "body": converter.convert(body),
             "toc": converter.toc,
+            "citations": re.findall(r"\]\((https?://[^\s)]+)\)",
+                re.split(r"(?m)^## Zdroje?\s*$", body)[-1])
+                if re.search(r"(?m)^## Zdroje?\s*$", body) else [],
         })
 
     return pages
@@ -93,7 +97,8 @@ def render_cards(pages: list[dict[str, str]]) -> str:
     return '<div class="cards">' + "".join(cards) + "</div>"
 
 
-def write_page(route: str, title: str, description: str, body: str) -> None:
+def write_page(route: str, title: str, description: str, body: str,
+               article: dict | None = None) -> None:
     """Wrap page content in the common layout and save its UTF-8 index file.
 
     Routes are relative to the output root. An empty route writes the homepage.
@@ -107,12 +112,64 @@ def write_page(route: str, title: str, description: str, body: str) -> None:
         f'<a href="/{key}/">{html.escape(section[0])}</a>'
         for key, section in list(SECTIONS.items())[:5]
     )
+    image_url = config["url"].rstrip("/") + "/assets/social-card.png"
+    properties = {
+        "og:title": title, "og:description": description,
+        "og:type": "article" if article else "website",
+        "og:url": canonical_url, "og:site_name": config["name"],
+        "og:locale": "cs_CZ", "og:image": image_url,
+        "og:image:type": "image/png", "og:image:width": "1200",
+        "og:image:height": "630",
+        "og:image:alt": "HAwiki.cz – Home Assistant srozumitelně",
+    }
+    structured_data = ""
+    tags = []
+    if article:
+        section_title = SECTIONS[route.split("/")[0]][0]
+        properties["article:section"] = section_title
+        topics = article.get("temata", [])
+        if not isinstance(topics, list) or not all(isinstance(t, str) for t in topics):
+            raise ValueError(f"{route}: temata must be a list of strings")
+        tags = topics
+        data = {
+            "@context": "https://schema.org", "@type": "Article",
+            "@id": canonical_url + "#article", "url": canonical_url,
+            "mainEntityOfPage": canonical_url, "headline": title,
+            "description": description, "inLanguage": config["language"],
+            "articleSection": section_title,
+            "publisher": {"@type": "Organization", "name": config["name"],
+                          "url": config["url"] + "/"},
+            "about": {"@type": "SoftwareApplication", "name": "Home Assistant",
+                      "url": "https://www.home-assistant.io/"},
+        }
+        if topics:
+            data["keywords"] = topics
+        if article["citations"]:
+            data["citation"] = article["citations"]
+        for field, schema_key, og_key in (
+            ("publikovano", "datePublished", "article:published_time"),
+            ("aktualizovano", "dateModified", "article:modified_time"),
+        ):
+            if article.get(field):
+                data[schema_key] = str(article[field])
+                properties[og_key] = str(article[field])
+        if article.get("autor"):
+            data["author"] = {"@type": "Person", "name": article["autor"]}
+        # Escape HTML-sensitive characters so content cannot close the script.
+        encoded = json.dumps(data, ensure_ascii=False).replace("<", "\\u003c")
+        structured_data = '<script type="application/ld+json">' + encoded + '</script>'
+    open_graph = "\n".join(
+        f'<meta property="{key}" content="{html.escape(value, quote=True)}">'
+        for key, value in [*properties.items(), *(("article:tag", t) for t in tags)]
+    )
     document = render_template(
         "layout",
         title=html.escape(title),
         description=html.escape(description),
         canonical_url=html.escape(canonical_url),
         navigation=navigation,
+        open_graph=open_graph,
+        structured_data=structured_data,
         body=body,
     )
     path = OUTPUT_DIRECTORY / route / "index.html"
@@ -134,10 +191,18 @@ def write_articles(pages: list[dict[str, str]]) -> None:
             description=html.escape(page["description"]),
             review_date=html.escape(page["kontrola_zdroju"]),
             review_status=html.escape(page["stav"]),
+            editorial_metadata="<p class=\"review\">" + " · ".join(
+                html.escape(label + str(page[key]))
+                for key, label in (("autor", "Autor: "),
+                                   ("publikovano", "Publikováno: "),
+                                   ("aktualizovano", "Aktualizováno: "))
+                if page.get(key)
+            ) + "</p>" if any(page.get(key) for key in
+                ("autor", "publikovano", "aktualizovano")) else "",
             content=page["body"],
             table_of_contents=page["toc"],
         )
-        write_page(page["slug"], page["title"], page["description"], body)
+        write_page(page["slug"], page["title"], page["description"], body, article=page)
 
 
 def write_sections(pages: list[dict[str, str]]) -> None:
