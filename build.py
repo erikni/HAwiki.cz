@@ -190,6 +190,13 @@ def write_articles(pages: list[dict[str, str]]) -> None:
             duration=html.escape(page["cas"]),
             title=html.escape(page["title"]),
             description=html.escape(page["description"]),
+            hero_image=(
+                '<figure class="article-hero"><img src="'
+                + html.escape(page["obrazek"], quote=True)
+                + '" alt="' + html.escape(page.get("obrazek_alt", ""), quote=True)
+                + '" style="width:100%;height:auto;display:block;border-radius:16px"'
+                + ' decoding="async"></figure>'
+            ) if page.get("obrazek") else "",
             review_date=html.escape(page["kontrola_zdroju"]),
             topic_labels=(
                 '<ul class="topic-labels" aria-label="Témata článku">'
