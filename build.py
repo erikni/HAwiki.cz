@@ -190,6 +190,14 @@ def write_articles(pages: list[dict[str, str]]) -> None:
             title=html.escape(page["title"]),
             description=html.escape(page["description"]),
             review_date=html.escape(page["kontrola_zdroju"]),
+            topic_labels=(
+                '<ul class="topic-labels" aria-label="Témata článku">'
+                + "".join(
+                    f'<li class="topic-label">{html.escape(topic)}</li>'
+                    for topic in page.get("temata", [])
+                )
+                + '</ul>'
+            ) if page.get("temata") else "",
             review_status=html.escape(page["stav"]),
             editorial_metadata="<p class=\"review\">" + " · ".join(
                 html.escape(label + str(page[key]))
