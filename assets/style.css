@@ -82,3 +82,38 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 .codehilite .il { color: #40a070 } /* Literal.Number.Integer.Long */
 
 article pre{background:#e6f5fc;border:1px solid #c9e7f5;border-radius:10px;padding:20px;overflow-x:auto;max-width:100%;line-height:1.6;tab-size:2}article pre code{display:block;background:transparent;border-radius:0;padding:0;color:var(--ink);font:14px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace;white-space:pre}article pre:has(code.language-yaml)::before{content:"YAML";display:block;margin-bottom:12px;color:var(--green);font:700 11px/1.4 system-ui,sans-serif;letter-spacing:.1em}
+
+/* Čitelné tabulky v článcích. */
+article table {
+  width: 100%;
+  margin: 32px 0;
+  border-collapse: collapse;
+  border: 1px solid #b8cfdd;
+  background: #fff;
+  font-size: 16px;
+  line-height: 1.6;
+}
+article th,
+article td {
+  padding: 14px 16px;
+  border: 1px solid #b8cfdd;
+  text-align: left;
+  vertical-align: top;
+  overflow-wrap: anywhere;
+}
+article th {
+  font-weight: 750;
+  background: #dceff8;
+}
+article tbody tr:nth-child(even) {
+  background: #f0f7fb;
+}
+@media (max-width: 650px) {
+  article th,
+  article td {
+    padding: 10px 8px;
+  }
+  article table {
+    font-size: 14px;
+  }
+}
