@@ -80,3 +80,5 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 .codehilite .vi { color: #bb60d5 } /* Name.Variable.Instance */
 .codehilite .vm { color: #bb60d5 } /* Name.Variable.Magic */
 .codehilite .il { color: #40a070 } /* Literal.Number.Integer.Long */
+
+article pre{background:#e6f5fc;border:1px solid #c9e7f5;border-radius:10px;padding:20px;overflow-x:auto;max-width:100%;line-height:1.6;tab-size:2}article pre code{display:block;background:transparent;border-radius:0;padding:0;color:var(--ink);font:14px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace;white-space:pre}article pre:has(code.language-yaml)::before{content:"YAML";display:block;margin-bottom:12px;color:var(--green);font:700 11px/1.4 system-ui,sans-serif;letter-spacing:.1em}
