@@ -1,6 +1,8 @@
 ---
 title: "Cloudové modely: rychlý začátek"
 description: "Připojte AI k Assist, nastavte češtinu a vyzkoušejte ovládání jedné lampy."
+obrazek: "/assets/images/cloudove-modely-rychly-zacatek.png"
+obrazek_alt: "Home Assistant propojuje lampu a telefon s cloudem nabízejícím více AI modelů."
 cas: "8 minut čtení"
 obtiznost: "Snadné"
 kontrola_zdroju: "2026-10-01"
