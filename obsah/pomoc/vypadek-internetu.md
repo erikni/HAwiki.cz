@@ -4,7 +4,10 @@ description: "Rozlište místní a cloudové funkce a vyzkoušejte vlastní dom�
 cas: "20 minut"
 obtiznost: "Snadné"
 kontrola_zdroju: "2026-10-01"
-stav: "Podle dokumentace; bez ověření na zařízení"
+stav: "Podle dokumentace"
+temata:
+  - "Internet"
+  - "Lokální ovládání"
 ---
 
 ## Internet a domácí síť nejsou totéž

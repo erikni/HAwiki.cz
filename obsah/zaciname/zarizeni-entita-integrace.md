@@ -4,7 +4,11 @@ description: "Na příkladu chytré zásuvky se vyznáte v základních pojmech 
 cas: "5 minut čtení"
 obtiznost: "Začátečník"
 kontrola_zdroju: "2026-10-01"
-stav: "Podle dokumentace; bez ověření na zařízení"
+stav: "Podle dokumentace"
+temata:
+  - "Zařízení"
+  - "Entity"
+  - "Integrace"
 ---
 
 ## Jedna zásuvka, několik položek

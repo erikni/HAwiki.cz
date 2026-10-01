@@ -4,7 +4,10 @@ description: "Vytvořte jednoduché ovládání se světlem, teplotou a stavem o
 cas: "20–30 minut"
 obtiznost: "Snadné"
 kontrola_zdroju: "2026-10-01"
-stav: "Podle dokumentace; bez ověření na zařízení"
+stav: "Podle dokumentace"
+temata:
+  - "Přehled domácnosti"
+  - "Dashboard"
 ---
 
 ## Co bude na konci fungovat

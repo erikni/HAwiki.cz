@@ -4,7 +4,10 @@ description: "Pro běžnou domácnost doporučujeme vynechat verze .0 a .1. Jak 
 cas: "8 minut čtení"
 obtiznost: "Snadné"
 kontrola_zdroju: "2026-09-30"
-stav: "Redakční doporučení; postup podle dokumentace, bez ověření na zařízení"
+stav: "Redakční doporučení; postup podle dokumentace"
+temata:
+  - "Aktualizace"
+  - "Údržba"
 ---
 
 ## Nová verze neznamená, že musíte hned aktualizovat

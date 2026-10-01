@@ -4,7 +4,10 @@ description: "Postupujte od nejjednodušších kontrol."
 cas: "10 minut"
 obtiznost: "Snadné"
 kontrola_zdroju: "2026-09-30"
-stav: "Podle dokumentace; bez ověření na zařízení"
+stav: "Podle dokumentace"
+temata:
+  - "Chytrá zařízení"
+  - "Řešení problémů"
 ---
 
 ## Nejprve zjistěte rozsah problému

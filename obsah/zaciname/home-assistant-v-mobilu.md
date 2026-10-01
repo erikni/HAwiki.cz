@@ -4,7 +4,10 @@ description: "Připojte mobil k domácnosti a vyzkoušejte první ovládání."
 cas: "15 minut"
 obtiznost: "Začátečník"
 kontrola_zdroju: "2026-10-01"
-stav: "Podle dokumentace; bez ověření na zařízení"
+stav: "Podle dokumentace"
+temata:
+  - "Mobilní aplikace"
+  - "Začínáme"
 ---
 
 ## Co bude na konci fungovat

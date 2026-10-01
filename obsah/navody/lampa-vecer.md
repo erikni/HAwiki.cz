@@ -4,7 +4,10 @@ description: "První jednoduché pravidlo nastavíte klikáním."
 cas: "20 minut"
 obtiznost: "Snadné"
 kontrola_zdroju: "2026-09-30"
-stav: "Podle dokumentace; bez ověření na zařízení"
+stav: "Podle dokumentace"
+temata:
+  - "Osvětlení"
+  - "Automatizace"
 ---
 
 ## Co bude na konci fungovat

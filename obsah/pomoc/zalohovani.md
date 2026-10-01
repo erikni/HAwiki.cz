@@ -4,7 +4,9 @@ description: "Uložte nastavení domácnosti i mimo hlavní zařízení."
 cas: "15 minut"
 obtiznost: "Snadné"
 kontrola_zdroju: "2026-09-30"
-stav: "Podle dokumentace; bez ověření na zařízení"
+stav: "Podle dokumentace"
+temata:
+  - "Zálohování"
 ---
 
 ## Co vám záloha zachrání

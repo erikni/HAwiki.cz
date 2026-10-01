@@ -4,7 +4,10 @@ description: "Pět otázek, které si položit před nákupem."
 cas: "6 minut"
 obtiznost: "Začátečník"
 kontrola_zdroju: "2026-09-30"
-stav: "Podle dokumentace; bez ověření na zařízení"
+stav: "Podle dokumentace"
+temata:
+  - "Chytrá zařízení"
+  - "Výběr zařízení"
 ---
 
 ## Nejprve účel, potom výrobek

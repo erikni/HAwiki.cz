@@ -4,7 +4,10 @@ description: "Jedno místo pro světla, topení i další zařízení."
 cas: "5 minut"
 obtiznost: "Začátečník"
 kontrola_zdroju: "2026-09-30"
-stav: "Podle dokumentace; bez ověření na zařízení"
+stav: "Podle dokumentace"
+temata:
+  - "Home Assistant"
+  - "Začínáme"
 ---
 
 ## Domácnost, která vám pomáhá

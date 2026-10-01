@@ -4,7 +4,7 @@ description: "Začněte malou sestavou, kterou můžete později rozšířit."
 cas: "7 minut"
 obtiznost: "Začátečník"
 kontrola_zdroju: "2026-09-30"
-stav: "Podle dokumentace; bez ověření na zařízení"
+stav: "Podle dokumentace"
 temata:
   - "Home Assistant"
   - "Home Assistant Green"

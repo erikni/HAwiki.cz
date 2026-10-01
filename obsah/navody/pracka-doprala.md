@@ -4,7 +4,11 @@ description: "Rozpoznejte konec praní podle příkonu a odešlete zprávu do te
 cas: "30 minut nastavení; ověření během praní"
 obtiznost: "Mírně pokročilé"
 kontrola_zdroju: "2026-10-01"
-stav: "Podle dokumentace; bez ověření na zařízení"
+stav: "Podle dokumentace"
+temata:
+  - "Pračka"
+  - "Upozornění"
+  - "Automatizace"
 ---
 
 ## Co bude na konci fungovat

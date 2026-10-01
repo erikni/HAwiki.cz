@@ -4,7 +4,10 @@ description: "Od zapojení po první otevření domácího ovládání."
 cas: "30–60 minut"
 obtiznost: "Začátečník"
 kontrola_zdroju: "2026-09-30"
-stav: "Podle dokumentace; bez ověření na zařízení"
+stav: "Podle dokumentace"
+temata:
+  - "Home Assistant Green"
+  - "Začínáme"
 ---
 
 ## Co budete potřebovat

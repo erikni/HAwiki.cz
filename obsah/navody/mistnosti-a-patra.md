@@ -4,7 +4,12 @@ description: "Co znamená Area, jak rozdělit domácnost do místností a pater 
 cas: "15 minut"
 obtiznost: "Začátečník"
 kontrola_zdroju: "2026-09-30"
-stav: "Podle dokumentace; YAML syntakticky ověřen, bez testu na zařízení"
+stav: "Podle dokumentace; YAML syntakticky ověřen"
+temata:
+  - "Místnosti"
+  - "Patra"
+  - "Osvětlení"
+  - "YAML"
 ---
 
 ## Proč rozdělovat domácnost do místností

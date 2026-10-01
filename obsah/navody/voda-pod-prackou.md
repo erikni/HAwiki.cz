@@ -4,7 +4,10 @@ description: "Nechte si poslat zprávu, když připojený senzor zaznamená vodu
 cas: "20 minut"
 obtiznost: "Snadné"
 kontrola_zdroju: "2026-10-01"
-stav: "Podle dokumentace; bez ověření na zařízení"
+stav: "Podle dokumentace"
+temata:
+  - "Únik vody"
+  - "Upozornění"
 ---
 
 ## Co bude na konci fungovat

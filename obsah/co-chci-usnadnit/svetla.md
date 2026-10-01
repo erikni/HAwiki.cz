@@ -4,7 +4,10 @@ description: "Tři malé změny pro každodenní pohodlí."
 cas: "4 minuty"
 obtiznost: "Inspirace"
 kontrola_zdroju: "2026-09-30"
-stav: "Podle dokumentace; bez ověření na zařízení"
+stav: "Podle dokumentace"
+temata:
+  - "Osvětlení"
+  - "Automatizace"
 ---
 
 ## Začněte jednou lampou

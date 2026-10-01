@@ -66,7 +66,7 @@ def load_pages() -> list[dict[str, str]]:
 
         slug = path.relative_to(ROOT / "obsah").with_suffix("").as_posix()
         converter = markdown.Markdown(
-            extensions=["toc", "tables", "fenced_code", "admonition"]
+            extensions=["toc", "tables", "fenced_code", "codehilite", "admonition"]
         )
         pages.append({
             **metadata,

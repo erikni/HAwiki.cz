@@ -4,7 +4,10 @@ description: "Jednoduchý plán, jak nepřijít o nastavení Home Assistant při
 cas: "10 minut čtení"
 obtiznost: "Snadné"
 kontrola_zdroju: "2026-09-30"
-stav: "Podle dokumentace; bez ověření na zařízení"
+stav: "Podle dokumentace"
+temata:
+  - "Zálohování"
+  - "Pravidlo 3–2–1"
 ---
 
 ## Proč nestačí záloha přímo v Home Assistant

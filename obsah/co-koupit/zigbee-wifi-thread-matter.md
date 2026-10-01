@@ -4,7 +4,12 @@ description: "Vyznáte se v označeních a zjistíte, co ověřit před nákupem
 cas: "5 minut čtení"
 obtiznost: "Začátečník"
 kontrola_zdroju: "2026-10-01"
-stav: "Podle dokumentace; bez ověření na zařízení"
+stav: "Podle dokumentace"
+temata:
+  - "Zigbee"
+  - "Wi-Fi"
+  - "Thread"
+  - "Matter"
 ---
 
 ## Nejdříve vyberte funkci, potom připojení

@@ -4,7 +4,12 @@ description: "Senzor rozsvítí světlo při pohybu a po dvou minutách bez pohy
 cas: "20 minut"
 obtiznost: "Snadné; vložení YAML"
 kontrola_zdroju: "2026-09-30"
-stav: "Podle dokumentace; YAML syntakticky ověřen, bez testu na zařízení"
+stav: "Podle dokumentace; YAML syntakticky ověřen"
+temata:
+  - "Osvětlení"
+  - "Pohybový senzor"
+  - "Automatizace"
+  - "YAML"
 ---
 
 ## Co bude na konci fungovat

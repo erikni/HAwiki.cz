@@ -4,7 +4,10 @@ description: "Jak se vrátit po nepovedené změně nebo obnovit Home Assistant 
 cas: "10 minut čtení; na samotnou obnovu si vyhraďte alespoň hodinu"
 obtiznost: "Krok za krokem"
 kontrola_zdroju: "2026-09-30"
-stav: "Podle dokumentace; bez ověření na zařízení"
+stav: "Podle dokumentace"
+temata:
+  - "Zálohování"
+  - "Obnova"
 ---
 
 ## Když se něco pokazí, začněte v klidu

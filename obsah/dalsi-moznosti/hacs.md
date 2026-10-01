@@ -4,7 +4,10 @@ description: "Komunitní rozšíření pro chvíli, kdy vám základ nestačí."
 cas: "5 minut"
 obtiznost: "Další krok"
 kontrola_zdroju: "2026-09-30"
-stav: "Podle dokumentace; bez ověření na zařízení"
+stav: "Podle dokumentace"
+temata:
+  - "HACS"
+  - "Komunitní integrace"
 ---
 
 ## Další možnosti od komunity
