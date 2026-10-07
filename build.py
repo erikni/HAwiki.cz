@@ -22,6 +22,7 @@ SECTIONS = {
     "co-koupit": ("Co koupit", "Nejdřív potřeba, potom nákup."),
     "navody": ("Návody", "Malé kroky s konkrétním výsledkem."),
     "pomoc": ("Pomoc", "Když něco nefunguje, začněte tady."),
+    "novinky": ("Novinky", "Týdenní přehled dění kolem Home Assistant a chytré domácnosti."),
     "ai": ("AI", "Modely, hlas a agenti pro chytrou domácnost."),
     "dalsi-moznosti": ("Další možnosti", "Rozšíření pro váš další krok."),
 }
@@ -111,7 +112,7 @@ def write_page(route: str, title: str, description: str, body: str,
         canonical_url += route + "/"
     navigation = "".join(
         f'<a href="/{key}/">{html.escape(section[0])}</a>'
-        for key, section in SECTIONS.items() if key != "dalsi-moznosti"
+        for key, section in SECTIONS.items() if key not in {"dalsi-moznosti", "co-chci-usnadnit"}
     )
     image_url = config["url"].rstrip("/") + "/assets/social-card.png"
     properties = {
@@ -241,6 +242,10 @@ def write_homepage(pages: list[dict[str, str]]) -> None:
         starter_cards=render_cards(
             [page for page in pages if page["slug"].startswith("zaciname/")]
         ),
+        news_cards=render_cards(sorted(
+            [page for page in pages if page["slug"].startswith("novinky/")],
+            key=lambda page: page["slug"], reverse=True,
+        )[:3]),
         practical_cards=render_cards(
             [page for page in pages if page["slug"] in PRACTICAL_ARTICLES]
         ),
