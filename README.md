@@ -77,3 +77,11 @@ Generátor vytváří JSON-LD typu Article pro články a Open Graph pro všechn
 Volitelná pole `autor` (jméno osoby), `publikovano` a `aktualizovano` se zobrazí v článku a strukturovaných datech. Data zapisujte jako uvozovaný řetězec ISO 8601 a doplňujte pouze doložené údaje. Kontrola zdrojů je samostatný údaj. Open Graph article:author vyžaduje profilovou URL, proto se ze samotného jména negeneruje.
 
 Společný náhled pro sdílení je v assets/social-card.png (1200 × 630 px). Open Graph se řídí https://ogp.me/ a JSON-LD https://schema.org/Article.
+
+## SEO a tematické rozcestníky
+
+`seo.json` uchovává SEO názvy kategorií, cestu začátečníka, tematické skupiny a odkazy na domácí scénáře. Úvodní texty HUBů jsou v `obsah/<téma>/index.md` s metadaty `type: hub`, `title`, `seoTitle` (volitelné), `description` a případně `kontrola_zdroju`. Adresář určuje URL HUBu; `index.md` nepřidává do URL další část. Nová témata přidejte do `topics` a doplňte odpovídající Markdown; prázdné archivy se nevytvářejí. Nové integrační průvodce lze přidat pod `obsah/integrace/` a tematické rozcestníky pod `obsah/integrace/<výrobce>/index.md`. Stávající články zůstávají na svých URL.
+
+Články mohou mít vlastní `seoTitle` a seznam `related` existujících slugů bez lomítka na začátku nebo konci. `autor` může být jméno nebo seznam jmen. Údaje o autorovi a vydání se nevytvářejí automaticky. Volitelný `sourceType` přijímá `official-docs`, `tested`, `editorial` a `mixed`; `testedOn` je popis skutečně použitého testovacího prostředí. `kontrola_zdroju` zůstává datem kontroly dokumentace.
+
+Generátor vytváří `sitemap.xml` z registru právě vytvořených veřejných stránek; statické ověřovací soubory ani zbylé HTML z předchozího sestavení se do ní nepropíší. `robots.txt` odkazuje na sitemap. Hostname redirect vyžaduje nastavení Cloudflare podle `docs/cloudflare-canonical.md`.

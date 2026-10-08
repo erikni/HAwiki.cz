@@ -1,0 +1,33 @@
+{
+  "sections": {
+    "zaciname": {"heading": "Home Assistant pro začátečníky", "title": "Home Assistant pro začátečníky: jak začít", "description": "Začněte s Home Assistant krok za krokem: výběr vybavení, instalace, telefon, první zařízení, automatizace a zálohování."},
+    "co-koupit": {"heading": "Hardware pro Home Assistant: co koupit", "title": "Hardware pro Home Assistant: co koupit", "description": "Vyberte hardware pro Home Assistant podle potřeb domácnosti. Průvodci řídicí jednotkou, rádiovými adaptéry a chytrými zařízeními."},
+    "navody": {"heading": "Home Assistant návody česky", "title": "Home Assistant návody česky", "description": "České návody pro Home Assistant: světla, topení, upozornění, spotřeba energie i hlasové ovládání. Postupujte od prvního malého kroku."},
+    "pomoc": {"heading": "Home Assistant nefunguje? Řešení problémů", "title": "Home Assistant: řešení problémů a chyb", "description": "Pomoc s Home Assistant: zařízení nereaguje, automatizace nefunguje nebo potřebujete obnovit zálohu. Začněte kontrolou běžných příčin."},
+    "novinky": {"heading": "Home Assistant novinky", "title": "Home Assistant novinky", "description": "Novinky kolem Home Assistant a chytré domácnosti česky. Přehled změn s odkazy na původní zdroje a vysvětlením pro běžné uživatele."},
+    "ai": {"heading": "Home Assistant a AI", "title": "Home Assistant a AI: hlas, LLM a lokální modely", "description": "Průvodce AI v Home Assistant: hlasové ovládání, cloudové a místní modely, Ollama a vybavení. Vyberte řešení podle svých potřeb."}
+  },
+  "learningPath": [
+    ["Co je Home Assistant", "zaciname/co-je-home-assistant"],
+    ["Co potřebuji", "zaciname/co-budu-potrebovat"],
+    ["Vyberte hardware", "co-koupit/jak-vybirat"],
+    ["Nainstalujte Home Assistant", "zaciname/instalace-home-assistant"],
+    ["Přidejte telefon", "zaciname/home-assistant-v-mobilu"],
+    ["Seznamte se se zařízeními a integracemi", "zaciname/zarizeni-entita-integrace"],
+    ["Vytvořte první automatizaci", "navody/lampa-vecer"],
+    ["Nastavte zálohování", "pomoc/zalohovani"]
+  ],
+  "topics": {
+    "zigbee": {"label": "Zigbee", "tags": ["Zigbee", "ZHA", "Zigbee2MQTT"], "start": "co-koupit/zigbee-wifi-thread-matter", "articles": ["co-koupit/zigbee-wifi-thread-matter", "co-koupit/home-assistant-connect-zbt-2", "zigbee/zha-vs-zigbee2mqtt"], "help": ["pomoc/zarizeni-nereaguje"], "related": ["integrace", "automatizace"]},
+    "integrace": {"label": "Integrace", "tags": ["Integrace", "Shelly", "BTHome", "Matter", "Thread", "Z-Wave"], "start": "zaciname/zarizeni-entita-integrace", "articles": ["zaciname/zarizeni-entita-integrace", "co-koupit/shelly-zarizeni-prehled", "co-koupit/zigbee-wifi-thread-matter", "navody/kamery-frigate", "dalsi-moznosti/hacs"], "help": ["pomoc/zarizeni-nereaguje", "pomoc/vypadek-internetu"], "related": ["zigbee", "automatizace"]},
+    "automatizace": {"label": "Automatizace", "tags": ["Automatizace"], "start": "navody/lampa-vecer", "articles": ["navody/lampa-vecer", "navody/svetlo-podle-pohybu", "navody/topeni-podle-rezimu", "navody/otevrene-okno-upozorneni", "navody/pracka-doprala", "navody/vecerni-scena", "navody/prehled-spotreby-elektriny"], "help": ["pomoc/automatizace-nefunguje"], "related": ["integrace", "zigbee"]}
+  },
+  "useCases": [
+    ["Automatizovat světla", "navody/svetlo-podle-pohybu"],
+    ["Řídit topení", "navody/topeni-podle-rezimu"],
+    ["Hlídání oken a dveří", "navody/otevrene-okno-upozorneni"],
+    ["Měřit spotřebu energie", "navody/prehled-spotreby-elektriny"],
+    ["Kamery", "navody/kamery-frigate"],
+    ["Hlasové ovládání", "ai/assist-model-hlas"]
+  ]
+}

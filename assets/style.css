@@ -117,3 +117,18 @@ article tbody tr:nth-child(even) {
     font-size: 14px;
   }
 }
+
+/* SEO navigace používá stávající barvy a jednoduché statické komponenty. */
+.hero-claim{font:500 58px/1.1 Georgia,serif;letter-spacing:-.03em;margin:15px 0 24px}
+.hero .hero-seo-heading{font:650 23px/1.45 system-ui,sans-serif;letter-spacing:normal;margin:0 0 20px}
+.link-grid{list-style:none;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:18px 0 40px}
+.link-grid a{display:block;padding:18px;border:1px solid var(--line);border-radius:8px;background:white;height:100%;overflow-wrap:anywhere}
+nav.crumb{display:block;width:auto;margin:25px 0;font-size:13px;white-space:normal;overflow:visible}
+.crumb ol{display:flex;flex-wrap:wrap;gap:8px;list-style:none;padding:0;margin:0}
+.crumb li+li::before{content:"/";margin-right:8px}
+.learning-path{margin:0 0 35px}.learning-path ol{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;padding-left:28px}
+.next-steps{border-top:1px solid var(--line);padding:30px 0}.next-steps h3{font-size:21px}
+.hub-content{max-width:100%;overflow-wrap:anywhere}.hub-content>p{max-width:780px}.hub-content h2{margin-top:32px}
+.topic-label a{color:inherit;text-decoration:underline}a:focus-visible{outline:3px solid #0879a6;outline-offset:4px}
+@media(max-width:1000px){.link-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:650px){.hero-claim{font-size:43px}.hero .hero-seo-heading{font-size:21px}.link-grid,.learning-path ol{grid-template-columns:1fr}.crumb{overflow-wrap:anywhere}.house{min-width:0}}
