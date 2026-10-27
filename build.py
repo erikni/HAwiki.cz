@@ -16,6 +16,8 @@ import sys
 import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parent
+sys.path.insert(0, str(ROOT / ".vendor"))
+from responsive_images import render_hero
 OUTPUT_DIRECTORY = ROOT / "dist"
 SECTIONS = {
     "zaciname": ("Začínáme", "Váš první krok k pohodlnější domácnosti."),
@@ -235,13 +237,7 @@ def write_articles(pages: list[dict[str, str]]) -> None:
             duration=html.escape(page["cas"]),
             title=html.escape(page["title"]),
             description=html.escape(page["description"]),
-            hero_image=(
-                '<figure class="article-hero"><img src="'
-                + html.escape(page["obrazek"], quote=True)
-                + '" alt="' + html.escape(page.get("obrazek_alt", ""), quote=True)
-                + '" style="width:100%;height:auto;display:block;border-radius:16px"'
-                + ' decoding="async"></figure>'
-            ) if page.get("obrazek") else "",
+            hero_image=render_hero(page, ROOT, OUTPUT_DIRECTORY),
             review_date=html.escape(page["kontrola_zdroju"]),
             topic_labels=(
                 '<ul class="topic-labels" aria-label="Témata článku">'
