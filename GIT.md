@@ -14,7 +14,7 @@ Git je vždy hostovaný na GitHub.com. Před použitím této šablony doplňte 
 - **URL repozitáře:** `https://github.com/{{GITHUB_USERNAME}}/{{REPOSITORY_NAME}}`
 - **URL issue:** `https://github.com/{{GITHUB_USERNAME}}/{{REPOSITORY_NAME}}/issues/<číslo-issue>`
 - **Produkční URL webu:** `{{SITE_URL}}`
-- **URL review/preview webu nebo její vzor:** `{{REVIEW_URL}}`
+- **URL review/preview webu nebo její vzor:** `{{PREVIEW_URL}}`
 
 Ostatní informace o projektu zjistěte z repozitáře a jeho metadat na GitHubu. Ověřte výchozí větev (pokud neni zadana je to "main", existující issues, README a související dokumentaci, nastavení buildu a testů, CI workflows, konfiguraci nasazení a dostupná nastavení hostingu. Produkční a review/preview URL i příkazy pro nasazení ověřte podle konfigurace a dokumentace. Chybějící URL, příkazy ani hranice prostředí neodhadujte; vyžádejte si chybějící údaj, až když je potřebný pro danou úlohu.
 

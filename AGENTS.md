@@ -9,7 +9,7 @@ GITHUB_USERNAME=erikni
 REPOSITORY_NAME=HAwiki.cz
 SITE_URL=https://www.hawiki.cz
 PREVIEW_URL=*-hawiki-cz.gemini77.workers.dev
-CF_WORKER_URI=hawiki-web
+CF_WORKER_URI=hawiki-cz
 ```
 
 `PREVIEW_URL` je vzor adresy. Před předložením změny ke schválení vždy zjistěte a ověřte skutečnou URL konkrétního preview; wildcard není odkaz na nasazený náhled.
