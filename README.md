@@ -26,7 +26,7 @@ Deset úvodních článků vychází z odkazované dokumentace. Postupy nebyly v
 
 ## Doména a barvy
 
-Cílová adresa je https://www.hawiki.cz a je nastavena v `site.json`. Generátor ji používá v kanonických adresách jednotlivých stránek. DNS a hosting musí být připojeny samostatně. Produkční hosting bude Cloudflare Pages; původní Sites náhled slouží pouze k prohlížení rozpracované verze.
+Cílová adresa je https://www.hawiki.cz a je nastavena v `site.json`. Generátor ji používá v kanonických adresách jednotlivých stránek. DNS a hosting musí být připojeny samostatně. Produkční hosting zajišťuje Cloudflare Worker `hawiki-cz` se statickými aktivy. Konfigurace Workeru je v `wrangler.jsonc`.
 
 Hlavní barva je Home Assistant modrá `#18BCF2`; textové odkazy používají tmavší `#0879A6` pro lepší čitelnost. Zdroj palety: https://github.com/home-assistant/frontend/blob/dev/src/resources/theme/color/core.globals.ts
 
@@ -34,32 +34,19 @@ Hlavní barva je Home Assistant modrá `#18BCF2`; textové odkazy používají t
 
 https://github.com/erikni/HAwiki.cz obsahuje pouze zdroje, Markdown články a podklady. `dist/` s hotovým HTML, stažené knihovny `.vendor/` a lokální hostingové nastavení se do něj nenahrávají.
 
-## Cloudflare Pages
+## Cloudflare Workers
 
-Projekt: `ha-wiki`. GitHub Actions workflow `.github/workflows/deploy-cloudflare-pages.yml` sestaví web a publikuje `dist/` při pushi do `main`. Lze jej spustit i ručně přes Actions z větve `main`; ostatní větve nenasazuje.
+Produkční Worker se jmenuje `hawiki-cz`. Soubor `wrangler.jsonc` určuje název Workeru a adresář `dist/` se statickými aktivy. Produkční workflow `.github/workflows/deploy-cloudflare-workers.yml` sestaví a zkontroluje web a pouze z větve `main` spustí `wrangler deploy`.
 
-V GitHub repozitáři nastavte **Settings → Secrets and variables → Actions → New repository secret** s názvem `CLOUDFLARE_API_TOKEN`. Použijte Cloudflare API token s oprávněním **Account → Cloudflare Pages → Edit** pro účet projektu. ID účtu v `CLOUDFLARE_ACCOUNT_ID` ve workflow musí odpovídat účtu projektu `ha-wiki`.
+Workflow `.github/workflows/preview-cloudflare-workers.yml` se spouští pro pull requesty ze stejného repozitáře. Příkaz `wrangler preview --name pr-<číslo-PR>` vytvoří oddělené Workers Preview bez změny produkčního provozu. Skutečnou URL zveřejní Cloudflare Wrangler Action v GitHub Deployment a souhrnu běhu. Očekávaný vzor je `*-hawiki-cz.gemini77.workers.dev`; před schválením mergu je nutné ověřit konkrétní adresu.
 
-Nasazení používá `wrangler pages deploy dist --project-name=ha-wiki --branch=main`. V Pages musí být produkční větev projektu nastavena na `main`.
+V GitHub repozitáři nastavte secret `CLOUDFLARE_API_TOKEN`. Token musí mít oprávnění upravovat Workers Scripts v účtu, ve kterém je Worker `hawiki-cz`. Veřejné ID účtu je uvedeno ve workflow; API token se nesmí zapisovat do repozitáře.
 
-Následující nastavení sestavení jsou pro případ použití Git integration; při nasazení přes GitHub Actions sestavení zajišťuje workflow:
+Sestavení zajišťuje `sh build-cloudflare.sh`: nainstaluje knihovny, převede Markdown do HTML a spustí místní kontroly. Při chybě workflow skončí s nenulovým návratovým kódem. Vygenerovaný adresář `dist/` zůstává mimo Git.
 
-| Nastavení | Hodnota |
-| --- | --- |
-| Production branch | `main` |
-| Framework preset | `None` |
-| Root directory | kořen repozitáře (prázdné pole) |
-| Build command | `sh build-cloudflare.sh` |
-| Build output directory | `dist` |
-| Python | `3.13.3` přes `.python-version` |
+Domény `www.hawiki.cz` a `hawiki.cz` se spravují v nastavení produkčního Workeru. Samotná hodnota v `site.json` nenastavuje DNS ani route.
 
-Sestavení nainstaluje knihovny, převede Markdown do HTML a zkontroluje místní odkazy. Při chybě skončí s nenulovým návratovým kódem. Výstup zůstává mimo Git; Pages ho vytvoří při každém nasazení.
-
-V projektu Pages otevřete **Custom domains** a připojte `www.hawiki.cz` podle průvodce Cloudflare. Samotná hodnota v `site.json` nenastavuje DNS. Pro doménu bez `www` lze samostatně nastavit přesměrování na `https://www.hawiki.cz`.
-
-Pokud je existující `ha-wiki` projektem Workers, tato nastavení se na něj nevztahují: použijte skutečný projekt Pages. Dashboardová adresa obsahující `/workers/services/view/` sama o sobě nepotvrzuje typ projektu.
-
-Dokumentace: https://developers.cloudflare.com/pages/how-to/use-direct-upload-with-continuous-integration/ a https://developers.cloudflare.com/pages/configuration/build-image/
+Dokumentace: https://developers.cloudflare.com/workers/static-assets/ a https://developers.cloudflare.com/workers/previews/
 
 ## Kontrola Python skriptů
 
