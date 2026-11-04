@@ -85,3 +85,10 @@ Společný náhled pro sdílení je v assets/social-card.png (1200 × 630 px). O
 Články mohou mít vlastní `seoTitle` a seznam `related` existujících slugů bez lomítka na začátku nebo konci. `autor` může být jméno nebo seznam jmen. Údaje o autorovi a vydání se nevytvářejí automaticky. Volitelný `sourceType` přijímá `official-docs`, `tested`, `editorial` a `mixed`; `testedOn` je popis skutečně použitého testovacího prostředí. `kontrola_zdroju` zůstává datem kontroly dokumentace.
 
 Generátor vytváří `sitemap.xml` z registru právě vytvořených veřejných stránek; statické ověřovací soubory ani zbylé HTML z předchozího sestavení se do ní nepropíší. `robots.txt` odkazuje na sitemap. Hostname redirect vyžaduje nastavení Cloudflare podle `docs/cloudflare-canonical.md`.
+
+
+### Review/preview pull requestů
+
+Workflow `.github/workflows/deploy-cloudflare-pages-preview.yml` sestaví a zkontroluje pull requesty ze stejného repozitáře a nasadí je do neprodukční větve Cloudflare Pages `pr-<číslo-PR>`. Workflow pro pull requesty z forků nespouští nasazení, aby jim nezpřístupnil repository secrets.
+
+Skutečná URL je po úspěšném běhu uvedena v GitHub Deployment a v souhrnu kroku workflow. Před schválením mergu ji ověřte a vložte do popisu PR, komentáře souvisejícího issue a závěrečného výstupu agenta. Preview větev není produkční větev `main` a nemění obsah na `https://www.hawiki.cz`.
