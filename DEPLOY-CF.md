@@ -1,109 +1,126 @@
-# Nasazení HAwiki.cz do Cloudflare
+# Šablona pro nasazení do Cloudflare Workers
 
-Tento dokument popisuje nasazení statického webu HAwiki.cz na Cloudflare Worker. Zdrojový repozitář je `erikni/HAwiki.cz`, produkční Worker se jmenuje `hawiki-cz` a veřejný web běží na `https://www.hawiki.cz`.
+Tento dokument popisuje obecný postup pro nasazení statického webu do Cloudflare Workers. Před použitím doplňte následující projektové údaje:
 
-## Konfigurace
+- uživatele nebo organizaci na GitHubu;
+- název repozitáře;
+- produkční URL webu;
+- URL nebo vzor review/preview webu;
+- název produkčního Cloudflare Workeru.
 
-Společným zdrojem pravdy pro ruční nasazení i GitHub Actions je `wrangler.jsonc`:
+## Kontext projektu
 
-- Worker: `hawiki-cz`
-- statická aktiva: `dist/`
-- vzor preview URL: `*-hawiki-cz.gemini77.workers.dev`
-- produkční URL: `https://www.hawiki.cz`
+- **GitHub:** `https://github.com/{{GITHUB_USERNAME}}/{{REPOSITORY_NAME}}`
+- **Produkční URL:** `{{SITE_URL}}`
+- **URL nebo vzor preview:** `{{PREVIEW_URL}}`
+- **Cloudflare Worker:** `{{CF_WORKER_URI}}`
 
-Používané projektové proměnné jsou v `AGENTS.md`. Správný název proměnné pro náhled je `PREVIEW_URL`.
+Hodnoty mohou být uvedeny v projektovém `AGENTS.md`. Správný název proměnné pro náhled je `PREVIEW_URL`. Wildcard nebo vzor nepovažujte za skutečnou URL konkrétního nasazení.
 
-## Požadavky
+## Ověření konfigurace
 
-- Python podle `.python-version`
-- Node.js 22 nebo novější
-- Wrangler 4.157.0 nebo novější kompatibilní verze
-- přístup do Cloudflare účtu s Workerem `hawiki-cz`
-- API token s oprávněním upravovat Workers Scripts pro automatické nasazení
+Před prvním nasazením zjistěte z repozitáře a Cloudflare:
 
-API token ani jiné přihlašovací údaje nepatří do Git repozitáře. GitHub Actions používá repository secret `CLOUDFLARE_API_TOKEN`. ID Cloudflare účtu je veřejná hodnota uvedená ve workflow.
+- umístění Wrangler konfigurace;
+- adresář s vygenerovanými statickými aktivy;
+- podporovanou verzi Node.js a Wrangleru;
+- příkaz pro sestavení a všechny povinné kontroly;
+- Cloudflare účet, ve kterém existuje `{{CF_WORKER_URI}}`;
+- způsob připojení produkčních domén;
+- zda jsou pro Worker povolené Workers Previews nebo Version URLs.
 
-## Sestavení a kontrola
+Chybějící hodnoty, příkazy, názvy Workerů ani hranice prostředí neodhadujte. Wrangler konfigurace má být zdrojem pravdy pro název Workeru a adresář statických aktiv.
 
-Před každým preview i produkčním nasazením spusťte:
+## Přihlašovací údaje
 
-```sh
-sh build-cloudflare.sh
-```
+API tokeny, refresh tokeny a jiné přihlašovací údaje nepatří do Git repozitáře ani do `AGENTS.md`.
 
-Skript vytvoří `dist/` a zkontroluje lokální odkazy. Pro úplné ověření spusťte také:
+Pro automatické nasazení používejte GitHub repository secrets. Token omezte na nezbytný Cloudflare účet a minimální oprávnění potřebná pro konkrétní nasazení. Veřejné identifikátory lze uchovávat v konfiguraci nebo jako GitHub variables.
 
-```sh
-PYTHONPATH=.vendor python3 check_seo.py
-```
-
-Při chybě sestavení, odkazů, SEO nebo JSON-LD nepokračujte v nasazení.
-
-## Přihlášení pro ruční nasazení
-
-Interaktivní přihlášení:
+Pro ruční přihlášení lze použít:
 
 ```sh
 npx wrangler login
 npx wrangler whoami
 ```
 
-Před nasazením ověřte, že přihlášený účet skutečně obsahuje Worker `hawiki-cz`. Název Workeru neodhadujte a nevytvářejte nový Worker s podobným názvem.
+Před změnou Cloudflare vždy ověřte, že přihlášený účet obsahuje Worker `{{CF_WORKER_URI}}`.
 
-## Preview pull requestu
+## Sestavení a kontrola
 
-Preview nesmí změnit produkční provoz. Z kořene sestavené feature větve spusťte:
+Před preview i produkčním nasazením:
+
+1. sestavte web dokumentovaným příkazem projektu;
+2. spusťte kontroly lokálních odkazů, statických souborů a metadat;
+3. ověřte SEO, canonical URL a strukturovaná data, pokud je web používá;
+4. zkontrolujte, že vygenerovaný adresář neobsahuje staré soubory z předchozího sestavení.
+
+Při chybě nepokračujte v nasazení. Výsledky kontrol uveďte v pull requestu.
+
+## Review/preview nasazení
+
+Před schválením mergu vytvořte oddělené preview, které nemění produkční provoz. Použijte projektový preview workflow nebo zdokumentovaný příkaz odpovídající aktuální verzi Wrangleru, například:
 
 ```sh
 npx wrangler preview --name pr-<číslo-PR>
 ```
 
-Wrangler vrátí skutečnou URL preview. Ověřte, že odpovídá vzoru `PREVIEW_URL`, načítá změny z dané větve a neukazuje produkční nebo starší obsah.
+Příkaz i jeho kompatibilitu ověřte podle Wrangler konfigurace a aktuální dokumentace Cloudflare. Pokud projekt používá Version URLs místo Workers Previews, použijte odpovídající zdokumentovaný postup a jasně uveďte, zda preview sdílí produkční resources.
 
-Skutečnou URL následně uveďte:
+Po nasazení ověřte, že konkrétní URL:
 
-- v popisu pull requestu;
-- v komentáři souvisejícího issue;
-- v odpovědi uživateli před žádostí o schválení mergu.
+- odpovídá projektu a očekávanému vzoru `{{PREVIEW_URL}}`;
+- obsahuje změny z příslušné feature větve;
+- není produkční URL `{{SITE_URL}}`;
+- nezměnila produkční provoz ani produkční data.
 
-GitHub workflow `.github/workflows/preview-cloudflare-workers.yml` provádí stejný postup automaticky pro pull requesty ze stejného repozitáře. U forků se preview nespouští, aby nebyly zpřístupněny secrets.
+Skutečnou preview URL uveďte v popisu pull requestu, v komentáři souvisejícího issue a v odpovědi uživateli. Pokud preview nelze vytvořit nebo ověřit, nežádejte o schválení mergu.
+
+Preview workflow nespouštějte pro nedůvěryhodné forky způsobem, který by jim zpřístupnil repository secrets.
 
 ## Produkční nasazení
 
-Produkční nasazení proveďte pouze z aktuální schválené větve `main` a až po výslovném schválení mergu a případného ručního nasazení uživatelem.
+Produkční nasazení proveďte pouze z aktuální schválené produkční větve. Nejdříve ověřte, zda se produkce nasazuje automaticky po mergi, nebo vyžaduje samostatný ruční krok.
 
-Automatické nasazení z `main` zajišťuje `.github/workflows/deploy-cloudflare-workers.yml`. Pokud je potřeba schválené ruční nasazení, po sestavení spusťte:
+Výslovné schválení mergu samo o sobě neopravňuje k ručnímu produkčnímu nasazení, pokud projektový postup nebo uživatel neurčí jinak.
+
+Pokud je schválené ruční nasazení a Wrangler konfigurace je ověřeným zdrojem pravdy, obvyklý příkaz je:
 
 ```sh
 npx wrangler deploy
 ```
 
-Příkaz `deploy` směruje novou verzi do produkce. Nepoužívejte jej k vytvoření preview.
+Příkaz `deploy` nepoužívejte pro review/preview. Před spuštěním znovu ověřte cílový účet, Worker `{{CF_WORKER_URI}}`, produkční větev a obsah sestavení.
 
 ## Ověření produkce
 
-Úspěšný výstup Wrangleru sám o sobě nepotvrzuje správné nasazení. Po dokončení ověřte alespoň:
+Úspěšný výstup nasazovacího příkazu sám o sobě nepotvrzuje správné nasazení. Na `{{SITE_URL}}` ověřte alespoň:
 
-1. změněnou produkční URL a její HTTP stav;
+1. HTTP stav změněných URL;
 2. viditelný titulek a očekávaný obsah;
-3. hlavní obrázky a další změněné statické soubory;
-4. canonical URL, Open Graph a JSON-LD;
-5. že ostatní důležité stránky nadále fungují.
+3. změněné obrázky a další statické soubory;
+4. canonical URL, Open Graph a strukturovaná data;
+5. důležité stránky, které změna neměla ovlivnit.
 
-Výsledek a přímou produkční URL zaznamenejte do souvisejícího issue.
+Výsledek, konkrétní produkční URL a případná omezení ověření zaznamenejte do souvisejícího issue. Push nebo úspěšný workflow run nejsou samy o sobě potvrzením funkční produkce.
 
 ## Návrat k předchozí verzi
 
-Pokud nová produkční verze způsobí chybu, zastavte další změny a zjistěte poslední funkční verzi:
+Při chybě zastavte další nasazování a zjistěte poslední ověřenou funkční verzi:
 
 ```sh
-npx wrangler deployments list --name hawiki-cz
+npx wrangler deployments list --name {{CF_WORKER_URI}}
 ```
 
-Rollback proveďte přes Cloudflare Dashboard v přehledu Workeru `hawiki-cz`, případně dokumentovaným příkazem Wrangleru pro konkrétní ověřenou verzi. Po návratu znovu ověřte produkční URL a výsledek zaznamenejte do issue. ID verze vždy zkopírujte z Cloudflare; neodhadujte je.
+Rollback proveďte přes Cloudflare Dashboard nebo aktuálním dokumentovaným příkazem Wrangleru pro konkrétní ověřené ID verze. ID verze nekopírujte z jiného Workeru a neodhadujte je.
 
-## Odkazy
+Po rollbacku znovu ověřte `{{SITE_URL}}` a výsledek zaznamenejte do issue.
+
+## Povinné odkazy
+
+Před zavedením nebo změnou procesu ověřte aktuální dokumentaci:
 
 - https://developers.cloudflare.com/workers/static-assets/
 - https://developers.cloudflare.com/workers/previews/
-- https://developers.cloudflare.com/workers/versions-and-deployments/rollbacks/
+- https://developers.cloudflare.com/workers/versions-and-deployments/
+- https://github.com/cloudflare/wrangler-action
